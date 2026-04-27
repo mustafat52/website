@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hussaini Automations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #0e0e0e;
+  --paper: #f5f0e8;
+  --cream: #ede8dc;
+  --warm: #e8e0ce;
+  --rust: #c84b2f;
+  --rust-dark: #a33a22;
+  --sand: #d4c9b0;
+  --charcoal: #2a2a2a;
+  --mid: #6b6456;
+  --light-ink: #4a4035;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 48px;
+}
+.logo-mark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.25rem; letter-spacing: 0.14em;
+  color: var(--ink); mix-blend-mode: multiply;
+  display: flex; align-items: center; gap: 0; cursor: default; user-select: none;
+}
+.logo-mark em { color: var(--rust); font-style: normal; }
+
+/* ── LOGO ANIMATION ── */
+.logo-h { display: inline-block; }
+.logo-expand {
+  display: inline-flex; overflow: hidden;
+  max-width: 0; opacity: 0;
+  white-space: nowrap;
+  transition: max-width 0.55s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease;
+  vertical-align: bottom;
+}
+.logo-mark:hover .logo-expand,
+.logo-mark.expanded .logo-expand {
+  max-width: 200px; opacity: 1;
+}
+.logo-dot { margin: 0 3px; color: var(--rust); }
+.logo-automations {
+  display: inline-flex; overflow: hidden;
+  max-width: 0; opacity: 0;
+  white-space: nowrap;
+  transition: max-width 0.6s cubic-bezier(0.22,1,0.36,1) 0.08s, opacity 0.3s ease 0.08s;
+}
+.logo-mark:hover .logo-automations,
+.logo-mark.expanded .logo-automations {
+  max-width: 300px; opacity: 1;
+}
+
+/* ── PAGE LOAD SEQUENCE ── */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scaleX(0); transform-origin: left; }
+  to   { opacity: 1; transform: scaleX(1); }
+}
+@keyframes typeReveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0% 0 0); }
+}
+@keyframes counterUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatBob {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200,75,47,0.25); }
+  50%       { box-shadow: 0 0 0 8px rgba(200,75,47,0); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes borderDraw {
+  from { stroke-dashoffset: 400; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes marqueeReveal {
+  from { opacity: 0; transform: translateY(100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero entrance */
+.hero-eyebrow { animation: slideRight 0.7s cubic-bezier(0.22,1,0.36,1) 0.2s both; }
+.hero-h1      { animation: fadeSlideUp 0.85s cubic-bezier(0.22,1,0.36,1) 0.45s both; }
+.hero-p       { animation: fadeSlideUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.7s both; }
+.hero-btns    { animation: fadeSlideUp 0.7s cubic-bezier(0.22,1,0.36,1) 0.9s both; }
+.hero-quote   { animation: fadeSlideUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.6s both; }
+.hero-stats   { animation: fadeSlideUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.8s both; }
+.hero-foot-tag { animation: fadeIn 1s ease 1.1s both; }
+nav           { animation: fadeIn 0.5s ease 0.1s both; }
+
+/* Marquee entrance */
+.marquee-wrap { animation: marqueeReveal 0.6s cubic-bezier(0.22,1,0.36,1) 1.1s both; overflow: hidden; }
+
+/* CTA button pulse */
+.btn-fill { animation: pulseGlow 2.5s ease 2s infinite; }
+
+/* Stat numbers count-up feel */
+.stat-n { animation: counterUp 0.6s cubic-bezier(0.22,1,0.36,1) both; }
+.hero-stats .stat-cell:nth-child(1) .stat-n { animation-delay: 1s; }
+.hero-stats .stat-cell:nth-child(2) .stat-n { animation-delay: 1.1s; }
+.hero-stats .stat-cell:nth-child(3) .stat-n { animation-delay: 1.2s; }
+.hero-stats .stat-cell:nth-child(4) .stat-n { animation-delay: 1.3s; }
+
+/* Service rows slide on hover — enhanced */
+.svc-row { position: relative; overflow: hidden; }
+.svc-row::after {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: var(--rust);
+  transform: scaleY(0); transform-origin: bottom;
+  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+.svc-row:hover::after { transform: scaleY(1); }
+
+/* Case cards entrance stagger */
+.cases .case:nth-child(1) { animation-delay: 0.05s; }
+.cases .case:nth-child(2) { animation-delay: 0.15s; }
+.cases .case:nth-child(3) { animation-delay: 0.25s; }
+
+/* Process cards stagger */
+.proc-grid .pc:nth-child(1) { animation-delay: 0.0s; }
+.proc-grid .pc:nth-child(2) { animation-delay: 0.1s; }
+.proc-grid .pc:nth-child(3) { animation-delay: 0.2s; }
+.proc-grid .pc:nth-child(4) { animation-delay: 0.3s; }
+
+/* Float animation on hero quote */
+.hero-quote { animation: fadeSlideUp 0.75s cubic-bezier(0.22,1,0.36,1) 0.6s both, floatBob 5s ease-in-out 2s infinite; }
+
+/* Shimmer on nav CTA */
+.nav-btn {
+  background: linear-gradient(90deg, var(--ink) 0%, var(--charcoal) 40%, #3a3a3a 50%, var(--charcoal) 60%, var(--ink) 100%);
+  background-size: 200% auto;
+  animation: shimmer 3.5s linear 2s infinite;
+}
+.nav-btn:hover { background: var(--rust); animation: none; }
+nav ul { list-style: none; display: flex; gap: 2.5rem; }
+nav ul a {
+  text-decoration: none; color: var(--charcoal);
+  font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase; transition: color 0.2s;
+}
+nav ul a:hover { color: var(--rust); }
+.nav-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; text-decoration: none;
+  color: var(--paper); background: var(--ink);
+  padding: 10px 22px; border-radius: 2px;
+  transition: background 0.2s;
+}
+.nav-btn:hover { background: var(--rust); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid; grid-template-columns: 1fr 1fr;
+  align-items: stretch; padding-top: 80px;
+}
+.hero-left {
+  background: var(--ink);
+  padding: 80px 56px 80px 48px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative; overflow: hidden;
+}
+.hero-left::after {
+  content: ''; position: absolute; bottom: -50px; right: -50px;
+  width: 240px; height: 240px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.hero-left::before {
+  content: ''; position: absolute; top: 60px; right: 56px;
+  width: 70px; height: 70px; border-radius: 50%;
+  border: 1px solid rgba(200,75,47,0.35);
+}
+.hero-eyebrow {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.85rem; letter-spacing: 0.22em; color: var(--rust);
+  margin-bottom: 48px;
+}
+.hero-h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 7vw, 7.5rem);
+  line-height: 0.9; letter-spacing: 0.01em;
+  color: var(--paper); margin-bottom: 36px;
+}
+.hero-h1 .ac { color: var(--rust); }
+.hero-h1 .it {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic; font-size: 0.72em; display: block; margin-top: 4px;
+}
+.hero-p {
+  font-size: 0.93rem; line-height: 1.75;
+  color: rgba(245,240,232,0.55); max-width: 380px;
+  font-weight: 300; margin-bottom: 48px;
+}
+.hero-btns { display: flex; align-items: center; gap: 24px; }
+.btn-fill {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--rust); color: var(--paper);
+  text-decoration: none; font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 13px 26px; border-radius: 2px; transition: background 0.2s, transform 0.2s;
+}
+.btn-fill:hover { background: var(--rust-dark); transform: translateX(3px); }
+.btn-ghost-w {
+  font-size: 0.78rem; color: rgba(245,240,232,0.45); letter-spacing: 0.04em;
+  cursor: pointer; text-decoration: underline; text-decoration-color: rgba(245,240,232,0.15);
+  text-underline-offset: 3px; background: none; border: none;
+  font-family: 'DM Sans', sans-serif; transition: color 0.2s;
+}
+.btn-ghost-w:hover { color: rgba(245,240,232,0.85); }
+
+.hero-right {
+  background: var(--cream);
+  padding: 100px 48px 80px 64px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.hero-quote {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: clamp(1.25rem, 2.2vw, 1.85rem); color: var(--light-ink); line-height: 1.45;
+  max-width: 400px; border-left: 2px solid var(--rust); padding-left: 24px; margin-bottom: 40px;
+}
+.hero-stats {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+  background: var(--sand); border: 1px solid var(--sand);
+  border-radius: 3px; overflow: hidden; margin-bottom: 40px;
+}
+.stat-cell { background: var(--cream); padding: 28px 24px; }
+.stat-n {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.8rem; color: var(--ink); line-height: 1; margin-bottom: 6px;
+}
+.stat-n em { color: var(--rust); font-style: normal; font-size: 0.75em; }
+.stat-l { font-size: 0.75rem; color: var(--mid); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 500; }
+.hero-foot-tag {
+  font-size: 0.73rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--mid); display: flex; align-items: center; gap: 12px;
+}
+.hero-foot-tag::before { content:''; width:32px; height:1px; background:var(--sand); display:block; }
+
+/* ── MARQUEE ── */
+.marquee-wrap { background: var(--rust); overflow: hidden; padding: 13px 0; }
+.marquee-track { display: flex; white-space: nowrap; animation: mq 22s linear infinite; }
+.m-item {
+  font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem;
+  letter-spacing: 0.2em; color: var(--paper); padding: 0 36px;
+  display: inline-flex; align-items: center; gap: 18px; flex-shrink: 0;
+}
+.m-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(245,240,232,0.35); }
+@keyframes mq { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── INTRO ── */
+.intro {
+  padding: 100px 48px;
+  display: grid; grid-template-columns: 200px 1fr; gap: 80px; align-items: start;
+}
+.intro-label {
+  font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--rust); font-weight: 600; padding-top: 10px; position: sticky; top: 110px;
+}
+.intro-text {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.5rem, 3vw, 2.3rem); line-height: 1.45;
+  color: var(--charcoal); font-weight: 400;
+}
+.intro-text em { font-style: italic; color: var(--rust); }
+
+/* ── SERVICES ── */
+.svc-wrap { background: var(--cream); padding: 0 48px; }
+.svc-head {
+  padding: 80px 0 56px;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  border-bottom: 1px solid var(--sand);
+}
+.svc-head h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 6vw, 6rem); letter-spacing: 0.02em; line-height: 0.88;
+}
+.svc-head p { font-size: 0.86rem; color: var(--mid); max-width: 260px; line-height: 1.65; font-weight: 300; text-align: right; }
+.svc-row {
+  display: grid; grid-template-columns: 56px 1fr 28px;
+  align-items: center; gap: 40px;
+  padding: 30px 0; border-bottom: 1px solid var(--sand);
+  cursor: default; transition: padding-left 0.25s;
+}
+.svc-row:hover { padding-left: 14px; }
+.svc-row:hover .svc-ttl { color: var(--rust); }
+.svc-row:hover .svc-arr { transform: translateX(5px); color: var(--rust); }
+.svc-n { font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; letter-spacing: 0.1em; color: var(--sand); }
+.svc-ttl { font-family: 'DM Serif Display', serif; font-size: 1.45rem; font-weight: 400; margin-bottom: 5px; transition: color 0.2s; }
+.svc-desc { font-size: 0.83rem; color: var(--mid); line-height: 1.6; font-weight: 300; max-width: 540px; }
+.svc-arr { font-size: 1.1rem; color: var(--sand); transition: all 0.25s; }
+
+/* ── WORK ── */
+.work { padding: 100px 48px; }
+.work-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 60px;
+}
+.work-head h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 5rem); line-height: 0.88; letter-spacing: 0.02em;
+}
+.work-head .sub { font-size: 0.78rem; color: var(--mid); letter-spacing: 0.12em; text-transform: uppercase; }
+.cases { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; background: var(--sand); border: 1px solid var(--sand); }
+.case {
+  background: var(--paper); padding: 48px 40px;
+  position: relative; overflow: hidden; transition: background 0.3s;
+}
+.case:hover { background: var(--cream); }
+.case::before {
+  content: attr(data-n); position: absolute; top: -20px; right: 12px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 8rem; color: var(--cream);
+  line-height: 1; pointer-events: none; transition: color 0.3s;
+}
+.case:hover::before { color: var(--warm); }
+.case-tag {
+  display: inline-block; font-size: 0.66rem; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--rust); border: 1px solid var(--rust);
+  padding: 3px 9px; border-radius: 2px; margin-bottom: 20px;
+}
+.case h3 {
+  font-family: 'DM Serif Display', serif; font-size: 1.6rem;
+  font-weight: 400; line-height: 1.2; margin-bottom: 14px;
+}
+.case p { font-size: 0.87rem; line-height: 1.72; color: var(--mid); font-weight: 300; margin-bottom: 28px; max-width: 400px; }
+.case-nums { display: flex; gap: 28px; margin-bottom: 28px; flex-wrap: wrap; }
+.cn-val {
+  font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--ink); line-height: 1;
+}
+.cn-val em { color: var(--rust); font-style: normal; }
+.cn-lbl { font-size: 0.7rem; color: var(--mid); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 2px; }
+
+/* screen mockup */
+.mock { border: 1px solid var(--sand); border-radius: 3px; background: #181818; overflow: hidden; }
+.mock-bar { background: #111; padding: 8px 12px; display: flex; align-items: center; gap: 5px; }
+.md { width: 8px; height: 8px; border-radius: 50%; }
+.mock-body { padding: 12px; }
+.mr { display: flex; gap: 6px; margin-bottom: 6px; align-items: center; }
+.mc { height: 20px; border-radius: 2px; }
+.mt { font-size: 0.58rem; padding: 2px 6px; border-radius: 2px; white-space: nowrap; letter-spacing: 0.06em; }
+.mt-g { color: #4ade80; background: rgba(74,222,128,0.1); }
+.mt-r { color: #fb923c; background: rgba(251,146,60,0.1); }
+.ml { font-size: 0.58rem; color: #444; }
+
+/* ── PROCESS ── */
+.proc { background: var(--ink); color: var(--paper); padding: 100px 48px; }
+.proc-lbl { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); font-weight: 600; margin-bottom: 56px; }
+.proc-grid {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 1px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.07);
+}
+.pc {
+  padding: 40px 28px; background: var(--ink); position: relative;
+  overflow: hidden; transition: background 0.3s;
+}
+.pc:hover { background: #161616; }
+.pc::after {
+  content: attr(data-s); position: absolute; bottom: -15px; right: 8px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 5.5rem;
+  color: rgba(255,255,255,0.03); line-height: 1;
+}
+.pc-n { font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 0.2em; color: var(--rust); margin-bottom: 18px; }
+.pc-h { font-family: 'DM Serif Display', serif; font-size: 1.25rem; font-weight: 400; margin-bottom: 12px; }
+.pc-p { font-size: 0.82rem; color: rgba(245,240,232,0.45); line-height: 1.68; font-weight: 300; }
+
+/* ── AI CHAT ── */
+.ai-sec { background: var(--cream); padding: 100px 48px; }
+.ai-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 80px; align-items: start; }
+.ai-lbl { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); font-weight: 600; margin-bottom: 22px; }
+.ai-h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.8rem, 4.5vw, 5rem); letter-spacing: 0.02em; line-height: 0.88; margin-bottom: 20px;
+}
+.ai-desc { font-size: 0.9rem; color: var(--mid); line-height: 1.75; font-weight: 300; margin-bottom: 28px; max-width: 360px; }
+.qps { display: flex; flex-direction: column; gap: 9px; }
+.qpb {
+  display: flex; align-items: center; gap: 12px;
+  background: none; border: 1px solid var(--sand); padding: 11px 16px;
+  border-radius: 2px; cursor: pointer; font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem; color: var(--charcoal); text-align: left;
+  transition: all 0.2s;
+}
+.qpb:hover { border-color: var(--rust); color: var(--rust); background: rgba(200,75,47,0.03); }
+
+.chat-wrap { background: var(--ink); border-radius: 3px; overflow: hidden; box-shadow: 18px 18px 0 var(--sand); }
+.chat-hd {
+  background: var(--rust); padding: 16px 22px;
+  display: flex; align-items: center; gap: 12px;
+}
+.chat-hd-av { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+.chat-hd-n { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 0.1em; color: var(--paper); }
+.chat-hd-s { font-size: 0.7rem; color: rgba(245,240,232,0.65); }
+.chat-live { width: 7px; height: 7px; border-radius: 50%; background: #4ade80; margin-left: auto; box-shadow: 0 0 5px #4ade80; }
+
+.chat-msgs {
+  padding: 18px; min-height: 240px; max-height: 300px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 11px;
+}
+.chat-msgs::-webkit-scrollbar { width: 3px; }
+.chat-msgs::-webkit-scrollbar-thumb { background: #2a2a2a; }
+.cm { display: flex; gap: 7px; max-width: 92%; animation: mp 0.3s ease; }
+@keyframes mp { from { opacity:0; transform:translateY(6px); } to { opacity:1; } }
+.cm.u { align-self: flex-end; flex-direction: row-reverse; }
+.cav { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; }
+.cav.b { background: var(--rust); }
+.cav.u2 { background: #222; border: 1px solid #333; }
+.cb { padding: 9px 13px; border-radius: 2px; font-size: 0.83rem; line-height: 1.6; }
+.cm:not(.u) .cb { background: #1c1c1c; color: rgba(245,240,232,0.8); border-radius: 2px 8px 8px 8px; }
+.cm.u .cb { background: var(--rust); color: var(--paper); border-radius: 8px 2px 8px 8px; }
+.ty { display: flex; gap: 3px; padding: 3px 0; }
+.ty span { width: 5px; height: 5px; border-radius: 50%; background: #444; animation: td2 1.2s infinite; }
+.ty span:nth-child(2) { animation-delay: 0.15s; }
+.ty span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes td2 { 0%,80%,100%{transform:scale(0.6);opacity:0.3} 40%{transform:scale(1);opacity:1} }
+
+.chat-ft { border-top: 1px solid #1e1e1e; background: #0e0e0e; padding: 11px 14px; display: flex; gap: 9px; align-items: flex-end; }
+.chat-input {
+  flex: 1; background: #1a1a1a; border: 1px solid #2a2a2a;
+  color: rgba(245,240,232,0.8); border-radius: 2px; padding: 10px 13px;
+  font-size: 0.83rem; font-family: 'DM Sans', sans-serif; resize: none;
+  outline: none; transition: border-color 0.2s; line-height: 1.5;
+}
+.chat-input:focus { border-color: var(--rust); }
+.chat-input::placeholder { color: #444; }
+.chat-send {
+  background: var(--rust); border: none; color: var(--paper);
+  width: 40px; height: 40px; border-radius: 2px; font-size: 1rem;
+  cursor: pointer; transition: background 0.2s; flex-shrink: 0;
+}
+.chat-send:hover { background: var(--rust-dark); }
+.chat-send:disabled { background: #2a2a2a; cursor: not-allowed; }
+
+/* ── CONTACT ── */
+.contact { padding: 100px 48px; }
+.contact-top {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 60px; padding-bottom: 40px; border-bottom: 1px solid var(--sand);
+}
+.contact-top h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 6vw, 7rem); line-height: 0.86; letter-spacing: 0.01em;
+}
+.contact-top h2 em { font-style: italic; font-family: 'DM Serif Display', serif; color: var(--rust); }
+.contact-top .sub-p { font-size: 0.86rem; color: var(--mid); max-width: 240px; line-height: 1.7; font-weight: 300; text-align: right; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+.c-info .email-a {
+  display: flex; align-items: center; gap: 11px;
+  font-family: 'DM Serif Display', serif; font-size: 1.05rem;
+  color: var(--ink); text-decoration: none; margin-bottom: 40px;
+  padding: 18px 22px; border: 1px solid var(--sand); border-radius: 2px; transition: all 0.2s;
+}
+.c-info .email-a:hover { border-color: var(--rust); color: var(--rust); }
+.c-note { font-size: 0.83rem; color: var(--mid); line-height: 1.75; font-weight: 300; padding: 22px; background: var(--cream); border-radius: 2px; }
+.form .fg { margin-bottom: 18px; }
+.form label { display: block; font-size: 0.69rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-bottom: 7px; }
+.form input, .form textarea, .form select {
+  width: 100%; background: var(--cream); border: 1px solid var(--sand);
+  color: var(--ink); border-radius: 2px; padding: 12px 15px;
+  font-size: 0.88rem; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; appearance: none;
+}
+.form input:focus, .form textarea:focus, .form select:focus { border-color: var(--rust); }
+.form textarea { min-height: 100px; resize: vertical; }
+.form select { cursor: pointer; }
+.form select option { background: var(--cream); }
+.submit {
+  width: 100%; background: var(--ink); color: var(--paper); border: none;
+  padding: 14px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+  font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  border-radius: 2px; cursor: pointer; transition: background 0.2s, transform 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.submit:hover { background: var(--rust); transform: translateY(-2px); }
+.form-ok { display: none; background: var(--cream); border-left: 3px solid var(--rust); padding: 13px 16px; font-size: 0.84rem; color: var(--charcoal); margin-top: 13px; border-radius: 2px; }
+
+/* ── HERO EXTRAS ── */
+.hero-positioning {
+  font-size: 0.78rem; color: rgba(245,240,232,0.5); letter-spacing: 0.04em;
+  margin-bottom: 28px; font-weight: 300; max-width: 360px; line-height: 1.6;
+  border-left: 2px solid var(--rust); padding-left: 12px;
+  animation: slideRight 0.7s cubic-bezier(0.22,1,0.36,1) 0.32s both;
+}
+.hero-urgency {
+  margin-top: 16px; font-size: 0.72rem; color: rgba(245,240,232,0.45);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  animation: fadeIn 0.7s ease 1.3s both;
+}
+
+/* ── TRUST SIGNALS ── */
+.trust-sec { background: var(--cream); border-top: 1px solid var(--sand); border-bottom: 1px solid var(--sand); padding: 40px 48px; }
+.trust-inner { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
+.trust-lbl { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mid); font-weight: 600; flex-shrink: 0; }
+.trust-industries { display: flex; flex-wrap: wrap; gap: 10px; }
+.trust-item {
+  font-size: 0.78rem; color: var(--charcoal); background: var(--paper);
+  border: 1px solid var(--sand); padding: 7px 14px; border-radius: 2px;
+  font-weight: 400; letter-spacing: 0.02em;
+}
+
+/* ── TESTIMONIALS ── */
+.testi-sec { padding: 100px 48px; background: var(--paper); }
+.testi-lbl { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); font-weight: 600; margin-bottom: 48px; }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: var(--sand); border: 1px solid var(--sand); }
+.testi-card {
+  background: var(--cream); padding: 40px 32px;
+  display: flex; flex-direction: column; gap: 18px; transition: background 0.2s;
+}
+.testi-card:hover { background: var(--paper); }
+.testi-quote {
+  font-family: 'DM Serif Display', serif; font-style: italic;
+  font-size: 1.05rem; line-height: 1.6; color: var(--charcoal); flex: 1;
+}
+.testi-author { font-size: 0.78rem; font-weight: 600; color: var(--ink); }
+.testi-tag { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--rust); font-weight: 600; }
+
+/* ── PRICING ── */
+.pricing-sec { background: var(--ink); color: var(--paper); padding: 100px 48px; }
+.pricing-head { margin-bottom: 60px; }
+.pricing-lbl { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust); font-weight: 600; margin-bottom: 18px; }
+.pricing-h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 5vw, 5.5rem); letter-spacing: 0.02em; line-height: 0.88; margin-bottom: 18px;
+}
+.pricing-sub { font-size: 0.86rem; color: rgba(245,240,232,0.45); line-height: 1.7; max-width: 420px; font-weight: 300; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(255,255,255,0.07); margin-bottom: 28px; }
+.pricing-card {
+  background: #111; padding: 44px 32px; position: relative;
+  display: flex; flex-direction: column; gap: 16px; transition: background 0.2s;
+}
+.pricing-card:hover { background: #161616; }
+.pricing-card.featured { background: var(--rust); }
+.pricing-card.featured:hover { background: var(--rust-dark); }
+.pc-badge {
+  position: absolute; top: 18px; right: 18px;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  background: rgba(255,255,255,0.2); color: var(--paper); padding: 4px 9px; border-radius: 2px;
+}
+.pc-tier { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.14em; color: rgba(245,240,232,0.45); }
+.pricing-card.featured .pc-tier { color: rgba(255,255,255,0.7); }
+.pc-price { font-family: 'Bebas Neue', sans-serif; font-size: 2.6rem; color: var(--paper); line-height: 1; }
+.pc-desc { font-size: 0.81rem; color: rgba(245,240,232,0.5); line-height: 1.65; font-weight: 300; }
+.pricing-card.featured .pc-desc { color: rgba(255,255,255,0.78); }
+.pc-list { list-style: none; display: flex; flex-direction: column; gap: 8px; flex: 1; margin: 4px 0; }
+.pc-list li { font-size: 0.79rem; color: rgba(245,240,232,0.55); padding-left: 16px; position: relative; line-height: 1.5; }
+.pc-list li::before { content: '✓'; position: absolute; left: 0; color: var(--rust); font-size: 0.72rem; }
+.pricing-card.featured .pc-list li { color: rgba(255,255,255,0.82); }
+.pricing-card.featured .pc-list li::before { color: rgba(255,255,255,0.9); }
+.pc-btn {
+  display: inline-flex; align-items: center; text-decoration: none;
+  background: rgba(255,255,255,0.08); color: var(--paper);
+  font-size: 0.74rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 11px 18px; border-radius: 2px; margin-top: 6px; transition: background 0.2s;
+}
+.pricing-card.featured .pc-btn { background: rgba(0,0,0,0.18); }
+.pc-btn:hover { background: rgba(255,255,255,0.15); }
+.pricing-note { font-size: 0.78rem; color: rgba(245,240,232,0.32); text-align: center; }
+.pricing-note a { color: rgba(245,240,232,0.55); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); color: rgba(245,240,232,0.45);
+  padding: 32px 48px; display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 12px;
+}
+.f-logo { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.15em; font-size: 1.05rem; color: var(--paper); }
+.f-logo em { color: var(--rust); font-style: normal; }
+footer p { font-size: 0.76rem; }
+
+@keyframes glitch {
+  0%,100%{ text-shadow: none; transform: none; }
+  20%    { text-shadow: -2px 0 var(--rust); transform: translateX(1px); }
+  40%    { text-shadow: 2px 0 rgba(100,200,255,0.4); transform: translateX(-1px); }
+  60%    { text-shadow: -1px 0 var(--rust); transform: skewX(-1deg); }
+  80%    { text-shadow: none; transform: none; }
+}
+@keyframes scanline {
+  0%   { top: -10%; }
+  100% { top: 110%; }
+}
+
+.hero-left::before {
+  content: ''; position: absolute; top: 60px; right: 56px;
+  width: 70px; height: 70px; border-radius: 50%;
+  border: 1px solid rgba(200,75,47,0.35);
+  animation: floatBob 4s ease-in-out 1.5s infinite;
+}
+/* Glitch on h1 hover */
+.hero-h1:hover { animation: glitch 0.4s steps(1) both; cursor: default; }
+
+/* Intro text word-by-word feel */
+.intro-text {
+  animation: fadeSlideUp 0.9s cubic-bezier(0.22,1,0.36,1) 0.1s both;
+}
+
+/* Process step number draws in */
+.pc-n {
+  position: relative; overflow: hidden;
+}
+.pc-n::after {
+  content: ''; position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 1px; background: var(--rust);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.pc:hover .pc-n::after { transform: scaleX(1); }
+
+/* Chat input focus ring pulse */
+.chat-input:focus {
+  border-color: var(--rust);
+  box-shadow: 0 0 0 2px rgba(200,75,47,0.15);
+  transition: box-shadow 0.3s ease, border-color 0.2s;
+}
+
+/* Submit button loading shimmer state */
+.submit.sending {
+  background: linear-gradient(90deg, var(--ink) 0%, #3a3a3a 50%, var(--ink) 100%);
+  background-size: 200% auto;
+  animation: shimmer 1s linear infinite;
+  pointer-events: none;
+}
+.rv { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.rv.in { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-right { padding: 60px 28px; }
+  nav ul { display: none; }
+  nav { padding: 16px 24px; }
+  .intro, .ai-grid, .contact-grid { grid-template-columns: 1fr; }
+  .cases { grid-template-columns: 1fr; }
+  .proc-grid { grid-template-columns: 1fr 1fr; }
+  .intro, .svc-wrap, .work, .ai-sec, .contact, .proc { padding-left: 24px; padding-right: 24px; }
+  .svc-head, .work-head, .contact-top { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .svc-head p, .contact-top .sub-p { text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo-mark" id="logoMark">
+    <span class="logo-h">H</span><span class="logo-expand">USSAINI</span><span class="logo-dot"> ✦ </span><span class="logo-h">A</span><span class="logo-automations">UTOMATIONS</span>
+  </div>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#advisor">AI Advisor</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-btn">Start a Project</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div>
+      <div class="hero-eyebrow">001 — AI AGENCY · HYDERABAD</div>
+      <div class="hero-positioning">We help small businesses automate operations and save 10–20 hours/week using custom AI systems.</div>
+      <h1 class="hero-h1">
+        YOUR<br/>BUSI<span class="ac">NESS</span><br/>ON AUTO
+        <span class="it">— pilot.</span>
+      </h1>
+      <p class="hero-p">We build custom AI systems, smart dashboards, and end-to-end automations that cut repetitive work — so you can focus on growing your business, not managing it.</p>
+    </div>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-fill">Get a Free Automation Plan →</a>
+      <button class="btn-ghost-w" onclick="document.getElementById('advisor').scrollIntoView({behavior:'smooth'})">See how AI helps you</button>
+    </div>
+    <div class="hero-urgency">⚡ Currently taking only 3 new clients this month</div>
+  </div>
+
+  <div class="hero-right">
+    <blockquote class="hero-quote">
+      "We don't sell software.<br/>We solve the problem<br/>behind it."
+    </blockquote>
+    <div class="hero-stats">
+      <div class="stat-cell">
+        <div class="stat-n">3</div>
+        <div class="stat-l">Custom Projects Built</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n">1500<em>+</em></div>
+        <div class="stat-l">Products in Live Inventory App</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n">3<em>→1</em></div>
+        <div class="stat-l">Booking Platforms Unified</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n">0<em>h</em></div>
+        <div class="stat-l">Manual Data Entry Post-Build</div>
+      </div>
+    </div>
+    <div class="hero-foot-tag">Powered by Modern AI · Built for Real Business</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="m-item">Custom Dashboards <span class="m-dot"></span></span>
+    <span class="m-item">Inventory Systems <span class="m-dot"></span></span>
+    <span class="m-item">AI Chatbots <span class="m-dot"></span></span>
+    <span class="m-item">Workflow Automations <span class="m-dot"></span></span>
+    <span class="m-item">Platform Integrations <span class="m-dot"></span></span>
+    <span class="m-item">Smart Notifications <span class="m-dot"></span></span>
+    <span class="m-item">Business Intelligence <span class="m-dot"></span></span>
+    <span class="m-item">Custom Dashboards <span class="m-dot"></span></span>
+    <span class="m-item">Inventory Systems <span class="m-dot"></span></span>
+    <span class="m-item">AI Chatbots <span class="m-dot"></span></span>
+    <span class="m-item">Workflow Automations <span class="m-dot"></span></span>
+    <span class="m-item">Platform Integrations <span class="m-dot"></span></span>
+    <span class="m-item">Smart Notifications <span class="m-dot"></span></span>
+    <span class="m-item">Business Intelligence <span class="m-dot"></span></span>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section class="intro rv">
+  <div class="intro-label">What We Do</div>
+  <div class="intro-text">
+    Most businesses run on <em>scattered tools, manual processes,</em> and gut feel. We come in, understand exactly how you work, and build AI-powered systems that connect everything — so nothing falls through the cracks again.
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="svc-wrap" id="services">
+  <div class="svc-head rv">
+    <h2>WHAT<br/>WE BUILD</h2>
+    <p>End-to-end custom solutions. No templates, no off-the-shelf. Every build is designed for your exact workflow.</p>
+  </div>
+  <div class="svc-row rv">
+    <div class="svc-n">01</div>
+    <div>
+      <div class="svc-ttl">Custom Dashboards & Reporting</div>
+      <div class="svc-desc">One screen for all your data — bookings, sales, inventory — pulled from every platform you use, in real time.</div>
+    </div>
+    <div class="svc-arr">→</div>
+  </div>
+  <div class="svc-row rv">
+    <div class="svc-n">02</div>
+    <div>
+      <div class="svc-ttl">AI Chatbots for Business</div>
+      <div class="svc-desc">Trained on your business. Handles customer queries, qualifies leads, supports your team — 24/7, no extra staff needed.</div>
+    </div>
+    <div class="svc-arr">→</div>
+  </div>
+  <div class="svc-row rv">
+    <div class="svc-n">03</div>
+    <div>
+      <div class="svc-ttl">Workflow Automations</div>
+      <div class="svc-desc">We link your apps and kill repetitive tasks — using Zapier, Make, or custom scripts — so your team works on what matters.</div>
+    </div>
+    <div class="svc-arr">→</div>
+  </div>
+  <div class="svc-row rv">
+    <div class="svc-n">04</div>
+    <div>
+      <div class="svc-ttl">Inventory & Operations Systems</div>
+      <div class="svc-desc">Built for real complexity. Hundreds of SKUs, multiple suppliers, live stock, low-stock alerts. All in one place.</div>
+    </div>
+    <div class="svc-arr">→</div>
+  </div>
+  <div class="svc-row rv" style="border-bottom:none;">
+    <div class="svc-n">05</div>
+    <div>
+      <div class="svc-ttl">Platform Integrations</div>
+      <div class="svc-desc">Airbnb, Booking.com, VRBO, Shopify, WhatsApp — we bridge every gap between the tools your business already depends on.</div>
+    </div>
+    <div class="svc-arr">→</div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section class="work" id="work">
+  <div class="work-head rv">
+    <h2>REAL<br/>WORK</h2>
+    <span class="sub">Selected Projects</span>
+  </div>
+  <div class="cases">
+    <div class="case rv" data-n="01">
+      <span class="case-tag">Property Management</span>
+      <h3>Unified Booking Dashboard Across 3 Platforms</h3>
+      <p>A property owner with 12 Airbnbs was juggling three separate apps — missing cancellations, losing track of revenue. We built one clean dashboard with instant booking and cancellation alerts.</p>
+      <div class="case-nums">
+        <div><div class="cn-val">3<em>→</em>1</div><div class="cn-lbl">Platforms unified</div></div>
+        <div><div class="cn-val">12</div><div class="cn-lbl">Properties managed</div></div>
+        <div><div class="cn-val">0<em>%</em></div><div class="cn-lbl">Missed alerts</div></div>
+      </div>
+      <div class="mock">
+        <div class="mock-bar">
+          <div class="md" style="background:#ef4444"></div>
+          <div class="md" style="background:#f59e0b"></div>
+          <div class="md" style="background:#4ade80"></div>
+          <div style="flex:1;height:7px;background:#222;border-radius:2px;margin-left:10px;"></div>
+        </div>
+        <div class="mock-body">
+          <div class="mr"><div class="mc" style="width:70px;background:#222;"></div><div style="flex:1"></div><span class="mt mt-g">● Live</span></div>
+          <div class="mr"><span class="ml">Villa #3 — Airbnb</span><div style="flex:1"></div><span class="mt mt-g">✓ Confirmed</span></div>
+          <div class="mr"><span class="ml">Apt #7 — Booking.com</span><div style="flex:1"></div><span class="mt mt-r">✕ Cancelled</span></div>
+          <div class="mr"><span class="ml">Studio #1 — VRBO</span><div style="flex:1"></div><span class="mt mt-g">✓ Confirmed</span></div>
+          <div class="mr"><span class="ml">Villa #9 — Airbnb</span><div style="flex:1"></div><span class="mt mt-g">✓ Check-in today</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case rv" data-n="02">
+      <span class="case-tag">Healthcare</span>
+      <h3>Smart Dental Appointment Management System</h3>
+      <p>A dental clinic struggling with double-bookings and missed appointments. We built a management system synced directly with Google Calendar — patients book online, doctors stay organised, and reminders fire automatically.</p>
+      <div class="case-nums">
+        <div><div class="cn-val">0</div><div class="cn-lbl">Double bookings</div></div>
+        <div><div class="cn-val">⚡</div><div class="cn-lbl">Auto reminders</div></div>
+        <div><div class="cn-val">1<em>×</em></div><div class="cn-lbl">Unified calendar</div></div>
+      </div>
+      <div class="mock">
+        <div class="mock-bar">
+          <div class="md" style="background:#ef4444"></div>
+          <div class="md" style="background:#f59e0b"></div>
+          <div class="md" style="background:#4ade80"></div>
+          <div style="flex:1;height:7px;background:#222;border-radius:2px;margin-left:10px;"></div>
+        </div>
+        <div class="mock-body">
+          <div class="mr" style="border-bottom:1px solid #222;padding-bottom:7px;margin-bottom:8px;">
+            <span class="ml" style="font-size:0.5rem;letter-spacing:0.1em;">PATIENT</span>
+            <div style="flex:1"></div>
+            <span class="ml" style="font-size:0.5rem;letter-spacing:0.1em;">TIME</span>
+            <div style="width:56px;text-align:right;font-size:0.5rem;letter-spacing:0.1em;color:#333;">STATUS</div>
+          </div>
+          <div class="mr"><span class="ml">Ahmed R.</span><div style="flex:1"></div><span class="ml">9:00 AM</span><div style="width:56px;text-align:right;"><span class="mt mt-g">✓ Confirmed</span></div></div>
+          <div class="mr"><span class="ml">Sara M.</span><div style="flex:1"></div><span class="ml">10:30 AM</span><div style="width:56px;text-align:right;"><span class="mt mt-g">✓ Reminded</span></div></div>
+          <div class="mr"><span class="ml">Khalid B.</span><div style="flex:1"></div><span class="ml">12:00 PM</span><div style="width:56px;text-align:right;"><span class="mt mt-r">⏳ Pending</span></div></div>
+          <div class="mr"><span class="ml">Fatima Z.</span><div style="flex:1"></div><span class="ml">2:00 PM</span><div style="width:56px;text-align:right;"><span class="mt mt-g">✓ Confirmed</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case rv" data-n="03">
+      <span class="case-tag">Hardware & Distribution</span>
+      <h3>Smart Inventory App for 1,500-Product Business</h3>
+      <p>A hardware distributor tracked 1,500+ products on spreadsheets — constantly overstocking some, running out of others. We replaced it with a custom inventory app that sends WhatsApp alerts the moment any item drops below its threshold.</p>
+      <div class="case-nums">
+        <div><div class="cn-val">1500<em>+</em></div><div class="cn-lbl">Products tracked</div></div>
+        <div><div class="cn-val">0</div><div class="cn-lbl">Spreadsheets left</div></div>
+        <div><div class="cn-val">📱</div><div class="cn-lbl">WhatsApp alerts</div></div>
+      </div>
+      <div class="mock">
+        <div class="mock-bar">
+          <div class="md" style="background:#ef4444"></div>
+          <div class="md" style="background:#f59e0b"></div>
+          <div class="md" style="background:#4ade80"></div>
+          <div style="flex:1;height:7px;background:#222;border-radius:2px;margin-left:10px;"></div>
+        </div>
+        <div class="mock-body">
+          <div class="mr" style="border-bottom:1px solid #222;padding-bottom:7px;margin-bottom:8px;">
+            <span class="ml" style="font-size:0.5rem;letter-spacing:0.1em;">PRODUCT</span>
+            <div style="flex:1"></div>
+            <span class="ml" style="font-size:0.5rem;letter-spacing:0.1em;">QTY</span>
+            <div style="width:48px;text-align:right;font-size:0.5rem;letter-spacing:0.1em;color:#333;">STATUS</div>
+          </div>
+          <div class="mr"><span class="ml">Plywood 18mm (8×4)</span><div style="flex:1"></div><span class="ml">142</span><div style="width:48px;text-align:right;"><span class="mt mt-g">OK</span></div></div>
+          <div class="mr"><span class="ml">Teak 12mm Sheet</span><div style="flex:1"></div><span class="ml">8</span><div style="width:48px;text-align:right;"><span class="mt mt-r">Low</span></div></div>
+          <div class="mr"><span class="ml">Iron Nails 4"</span><div style="flex:1"></div><span class="ml">580</span><div style="width:48px;text-align:right;"><span class="mt mt-g">OK</span></div></div>
+          <div class="mr"><span class="ml">MDF Board 6mm</span><div style="flex:1"></div><span class="ml">0</span><div style="width:48px;text-align:right;"><span class="mt mt-r">Out</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="proc">
+  <div class="proc-lbl rv">Our Process</div>
+  <div class="proc-grid">
+    <div class="pc rv" data-s="1"><div class="pc-n">STEP — 01</div><div class="pc-h">Discovery</div><p class="pc-p">We sit with you, understand your day-to-day, find where time and money leaks out.</p></div>
+    <div class="pc rv" data-s="2"><div class="pc-n">STEP — 02</div><div class="pc-h">Custom Blueprint</div><p class="pc-p">We design a solution specific to your problem. No templates, no guessing.</p></div>
+    <div class="pc rv" data-s="3"><div class="pc-n">STEP — 03</div><div class="pc-h">Build & Iterate</div><p class="pc-p">We build fast, show you progress, take your feedback, refine until it's exactly right.</p></div>
+    <div class="pc rv" data-s="4"><div class="pc-n">STEP — 04</div><div class="pc-h">Deploy & Support</div><p class="pc-p">We launch and stay close. Need changes later? We're one message away.</p></div>
+  </div>
+</section>
+
+<!-- TRUST SIGNALS -->
+<section class="trust-sec">
+  <div class="trust-inner rv">
+    <div class="trust-lbl">Trusted By</div>
+    <div class="trust-industries">
+      <div class="trust-item">🏥 Healthcare &amp; Clinics</div>
+      <div class="trust-item">🏠 Property &amp; Hospitality</div>
+      <div class="trust-item">🔩 Manufacturing &amp; Distribution</div>
+      <div class="trust-item">🛍️ Retail &amp; E-commerce</div>
+      <div class="trust-item">🍽️ Restaurants &amp; Food</div>
+      <div class="trust-item">💼 Service Businesses</div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-sec">
+  <div class="testi-lbl rv">What Clients Say</div>
+  <div class="testi-grid">
+    <div class="testi-card rv">
+      <div class="testi-quote">"Saved us hours every single week. We went from juggling three apps to one dashboard — it just works."</div>
+      <div class="testi-author">— Property Manager, Hyderabad</div>
+      <div class="testi-tag">Airbnb · Booking.com · VRBO</div>
+    </div>
+    <div class="testi-card rv">
+      <div class="testi-quote">"No more double bookings. The calendar system they built is cleaner than anything we tried before."</div>
+      <div class="testi-author">— Dental Clinic Owner, Hyderabad</div>
+      <div class="testi-tag">Appointment Management</div>
+    </div>
+    <div class="testi-card rv">
+      <div class="testi-quote">"1,500 products and I get a WhatsApp the second anything runs low. I don't touch spreadsheets anymore."</div>
+      <div class="testi-author">— Hardware Distributor, Hyderabad</div>
+      <div class="testi-tag">Inventory System</div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-sec" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-head rv">
+      <div class="pricing-lbl">Investment</div>
+      <h2 class="pricing-h2">TRANSPARENT<br/>PRICING</h2>
+      <p class="pricing-sub">Every build is custom — no cookie-cutter packages. These ranges give you a realistic starting point.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card rv">
+        <div class="pc-tier">Starter</div>
+        <div class="pc-price">₹15k – ₹30k</div>
+        <div class="pc-desc">Simple automations, basic dashboards, single-workflow tools. Great for a first project to prove the ROI.</div>
+        <ul class="pc-list">
+          <li>Single workflow automation</li>
+          <li>Basic dashboard or report</li>
+          <li>WhatsApp / Email alerts</li>
+          <li>2 weeks delivery</li>
+        </ul>
+        <a href="#contact" class="pc-btn">Get a Free Plan →</a>
+      </div>
+      <div class="pricing-card featured rv">
+        <div class="pc-badge">Most Popular</div>
+        <div class="pc-tier">Custom System</div>
+        <div class="pc-price">₹30k – ₹80k</div>
+        <div class="pc-desc">Full custom systems — inventory, booking management, multi-platform integrations, operations dashboards.</div>
+        <ul class="pc-list">
+          <li>Full custom build</li>
+          <li>Multi-platform integrations</li>
+          <li>Live data + real-time alerts</li>
+          <li>4–6 weeks delivery</li>
+        </ul>
+        <a href="#contact" class="pc-btn">Get a Free Plan →</a>
+      </div>
+      <div class="pricing-card rv">
+        <div class="pc-tier">Full AI Solution</div>
+        <div class="pc-price">₹80k+</div>
+        <div class="pc-desc">End-to-end AI systems, custom chatbots, complex multi-module platforms, ongoing support contracts.</div>
+        <ul class="pc-list">
+          <li>AI chatbot or advisor</li>
+          <li>Multi-module platform</li>
+          <li>Team training included</li>
+          <li>Ongoing support plan</li>
+        </ul>
+        <a href="#contact" class="pc-btn">Get a Free Plan →</a>
+      </div>
+    </div>
+    <div class="pricing-note rv">All prices are starting estimates. We scope every project individually — <a href="#contact">reach out for a free assessment.</a></div>
+  </div>
+</section>
+
+<!-- AI ADVISOR -->
+<section class="ai-sec" id="advisor">
+  <div class="ai-grid">
+    <div class="rv">
+      <div class="ai-lbl">Free Tool</div>
+      <h2 class="ai-h2">NOT SURE<br/>WHERE TO<br/>START?</h2>
+      <p class="ai-desc">Tell our AI advisor what your business does and what's slowing you down. It'll explain in plain language — no jargon — exactly where automation could help.</p>
+      <div class="qps">
+        <button class="qpb" onclick="fp('I run a restaurant and managing daily orders, staff, and inventory is getting hard')">🍽️ &nbsp; I run a restaurant</button>
+        <button class="qpb" onclick="fp('I have a retail shop with many products and tracking stock manually is a pain')">🛍️ &nbsp; I have a retail shop</button>
+        <button class="qpb" onclick="fp('I manage rental properties and keeping track of bookings across platforms is messy')">🏠 &nbsp; I manage properties</button>
+        <button class="qpb" onclick="fp('I run a clinic or medical practice and managing appointments and patient reminders is chaotic')">🏥 &nbsp; I run a clinic or practice</button>
+        <button class="qpb" onclick="fp('I run a service business and following up with clients and invoicing takes too much time')">💼 &nbsp; I run a service business</button>
+      </div>
+    </div>
+
+    <div class="chat-wrap rv">
+      <div class="chat-hd">
+        <div class="chat-hd-av">🤖</div>
+        <div>
+          <div class="chat-hd-n">Hussaini AI Advisor</div>
+          <div class="chat-hd-s">Powered by Claude · Free · Instant</div>
+        </div>
+        <div class="chat-live"></div>
+      </div>
+      <div class="chat-msgs" id="msgs">
+        <div class="cm">
+          <div class="cav b">🤖</div>
+          <div class="cb">Hey! Tell me about your business — what you do, and what's eating up too much of your time. I'll tell you exactly where AI can step in. No tech talk, I promise.</div>
+        </div>
+      </div>
+      <div class="chat-ft">
+        <textarea class="chat-input" id="ci" rows="1" placeholder="Describe your business or biggest pain..."
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sc()}"
+          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,90)+'px'"></textarea>
+        <button class="chat-send" id="sb" onclick="sc()">➤</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-top rv">
+    <h2>LET'S<br/><em>TALK</em><br/>BUSINESS</h2>
+    <p class="sub-p">No pressure. No jargon. Tell us what you're dealing with and we'll figure it out together.</p>
+  </div>
+  <div class="contact-grid">
+    <div class="c-info rv">
+      <a href="mailto:hussainiautomations72@gmail.com" class="email-a">📧 &nbsp; hussainiautomations72@gmail.com &nbsp; →</a>
+      <div class="c-note">Based in Hyderabad, India. We work with businesses across all sectors. If you have a problem costing you time or money — even if you're not sure tech can fix it — just reach out. That's exactly what we're here for.</div>
+    </div>
+    <div class="rv">
+      <div class="form">
+        <div class="fg"><label>Your Name</label><input type="text" id="fn" placeholder="Mohammed Ali"/></div>
+        <div class="fg"><label>Email Address</label><input type="email" id="fe" placeholder="you@business.com"/></div>
+        <div class="fg">
+          <label>Your Industry</label>
+          <select id="fi">
+            <option value="">Select one...</option>
+            <option>Retail / E-commerce</option>
+            <option>Hospitality / Rentals</option>
+            <option>Manufacturing / Distribution</option>
+            <option>Restaurant / Food</option>
+            <option>Service Business</option>
+            <option>Healthcare</option>
+            <option>Real Estate</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="fg"><label>What's slowing you down?</label><textarea id="fm" placeholder="Tell us what's painful — even if you have no idea what the solution looks like. That's our job."></textarea></div>
+        <button class="submit" onclick="sub()">Send Message →</button>
+        <div class="form-ok" id="fok">✓ Sent! We'll be in touch within 24 hours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">HUSSAINI <em>✦</em> AUTOMATIONS</div>
+  <p>© 2026 · Hyderabad, India · AI-Powered. Human-Made.</p>
+  <p style="font-size:0.7rem;">Built with precision.</p>
+</footer>
+
+<script>
+// LOGO EXPAND — auto-expands on load, then collapses, then hover works
+const logo = document.getElementById('logoMark');
+setTimeout(()=>{
+  logo.classList.add('expanded');
+  setTimeout(()=>{ logo.classList.remove('expanded'); }, 2200);
+}, 600);
+
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:0.08});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// NUMBER COUNTER ANIMATION
+function animateCount(el, target, suffix, duration){
+  let start=0, step=target/60;
+  const isFloat = String(target).includes('.');
+  const tick = ()=>{
+    start = Math.min(start+step, target);
+    el.textContent = isFloat ? start.toFixed(1) : Math.floor(start);
+    if(start < target) requestAnimationFrame(tick);
+    else el.textContent = target;
+  };
+  tick();
+}
+// Observe stat cells for counter trigger
+const statObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    statObs.unobserve(e.target);
+    const numEl = e.target.querySelector('.stat-n');
+    if(!numEl) return;
+    const raw = numEl.textContent;
+    const num = parseInt(raw.replace(/[^0-9]/g,''));
+    if(!isNaN(num) && num > 1){
+      const suffixPart = numEl.innerHTML.replace(/[0-9]+/,'');
+      numEl.textContent = '0';
+      setTimeout(()=>{
+        let i=0, dur=900, interval=dur/num;
+        if(num > 100) interval = dur/60;
+        const go=()=>{
+          i = Math.min(i + Math.ceil(num/60), num);
+          numEl.innerHTML = i + suffixPart;
+          if(i<num) requestAnimationFrame(go);
+        };
+        go();
+      }, 200);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('.stat-cell').forEach(el=>statObs.observe(el));
+
+// CHATBOT
+let busy=false, hist=[];
+const msgsEl=document.getElementById('msgs');
+const ciEl=document.getElementById('ci');
+const sbEl=document.getElementById('sb');
+
+function am(role,text){
+  const d=document.createElement('div');
+  d.className='cm'+(role==='u'?' u':'');
+  const av=document.createElement('div');
+  av.className='cav '+(role==='u'?'u2':'b');
+  av.textContent=role==='u'?'👤':'🤖';
+  const b=document.createElement('div');
+  b.className='cb'; b.textContent=text;
+  d.appendChild(av); d.appendChild(b);
+  msgsEl.appendChild(d);
+  msgsEl.scrollTop=msgsEl.scrollHeight;
+}
+function showT(){
+  const d=document.createElement('div');
+  d.className='cm'; d.id='typ';
+  const av=document.createElement('div');
+  av.className='cav b'; av.textContent='🤖';
+  const b=document.createElement('div');
+  b.className='cb'; b.innerHTML='<div class="ty"><span></span><span></span><span></span></div>';
+  d.appendChild(av); d.appendChild(b);
+  msgsEl.appendChild(d); msgsEl.scrollTop=msgsEl.scrollHeight;
+}
+function remT(){ const t=document.getElementById('typ'); if(t) t.remove(); }
+
+async function sc(){
+  const txt=ciEl.value.trim();
+  if(!txt||busy) return;
+  ciEl.value=''; ciEl.style.height='auto';
+  am('u',txt); hist.push({role:'user',content:txt});
+  busy=true; sbEl.disabled=true; showT();
+  try {
+    const r=await fetch('/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages:hist})
+    });
+    const data=await r.json();
+    remT();
+    const reply=data.content?.[0]?.text||"Tell me a bit more about your daily operations?";
+    am('bot',reply); hist.push({role:'assistant',content:reply});
+  } catch(e){
+    remT();
+    am('bot',"Small hiccup! Email us at hello@hussainiautomations.com and we'll personally walk you through it.");
+  }
+  busy=false; sbEl.disabled=false;
+}
+
+function fp(text){ ciEl.value=text; document.getElementById('advisor').scrollIntoView({behavior:'smooth'}); setTimeout(sc,350); }
+
+
+function sub(){
+  console.log("Form submit triggered");
+  const name = document.getElementById('fn').value.trim();
+  const email = document.getElementById('fe').value.trim();
+  const industry = document.getElementById('fi').value;
+  const msg = document.getElementById('fm').value.trim();
+
+  if(!name || !email || !msg){
+    alert('Please fill in your name, email and message.');
+    return;
+  }
+
+  fetch('/api/contact', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      name,
+      email,
+      industry,
+      message: msg
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    document.getElementById('fok').style.display = 'block';
+  })
+  .catch(err => {
+    alert('Something went wrong. Try again.');
+    console.error(err);
+  });
+}
+</script>
+</body>
+</html>

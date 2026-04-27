@@ -1,0 +1,14 @@
+# Environment variables — NEVER push this to GitHub
+.env
+.env.local
+.env.production
+
+# Dependencies
+node_modules/
+
+# Vercel
+.vercel
+
+# OS files
+.DS_Store
+Thumbs.db
