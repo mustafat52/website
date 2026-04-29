@@ -30,7 +30,7 @@ module.exports = async function handler(req, res) {
     try {
       const { GoogleGenerativeAI } = require("@google/generative-ai");
       const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const result = await model.generateContent("Say OK");
       results.gemini_call = "SUCCESS: " + result.response.text();
     } catch(e) {
