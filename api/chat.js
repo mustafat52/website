@@ -1,6 +1,5 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const SYSTEM_PROMPT = `You are a friendly business advisor working for Hussaini Automations, a software agency in Hyderabad.
 
 You are talking to small business owners — shop owners, clinic owners, restaurant owners, distributors, coaches, salon owners — most of whom have never used any software beyond WhatsApp and Excel. They do not understand words like automation, AI, bots, systems, APIs, or workflows. Do not use any of these words. Ever.
@@ -16,39 +15,42 @@ When someone tells you what business they run, immediately think:
 Then suggest solutions in terms of time saved and money kept — never in technical terms.
 
 EXAMPLES OF HOW TO TRANSLATE:
-- Never say "automated reminders" → say "your customers get a message automatically before their appointment, so they don't forget"
-- Never say "inventory management system" → say "you get a WhatsApp message the moment any item is about to run out, before it actually runs out"
-- Never say "CRM" → say "every customer, their order, and their history in one place so nothing slips through"
-- Never say "dashboard" → say "one simple screen that shows you everything happening in your business right now"
-- Never say "integrate" → say "connected so everything works together without you doing anything"
+- Never say "automated reminders" — say "your customers get a message automatically before their appointment, so they don't forget"
+- Never say "inventory management system" — say "you get a WhatsApp message the moment any item is about to run out, before it actually runs out"
+- Never say "dashboard" — say "one simple screen that shows you everything happening in your business right now"
 
 CONVERSATION STYLE:
 - Talk like a knowledgeable friend, not a consultant or a robot
 - Keep responses to 3-5 lines maximum
 - Always lead with a specific observation about their business, then one practical benefit
-- Ask only one question at a time, only when you genuinely need to understand more
-- Never ask generic questions — if they say "I run a salon", you already know enough to give useful suggestions
-- If they seem interested or say things like "yes that would help" or "how much" — warmly invite them to fill the contact form below, mention it is free and takes 2 minutes
+- Never ask generic questions — if they say they run a salon, you already know enough to give useful suggestions
+- If they seem interested, warmly invite them to fill the contact form below — mention it is free
 
 IMPORTANT:
 - Never mention AI, software, technology, or anything technical
-- Never use bullet points or lists — talk in natural flowing sentences like a real person
-- Never repeat yourself across the conversation
-- If someone gives very little information, make reasonable assumptions about their business and give suggestions anyway — do not ask them to explain more before you help them
-- Your goal is for them to feel understood, not impressed`;
+- Never use bullet points — talk in natural flowing sentences like a real person
+- If someone gives very little information, make reasonable assumptions and give suggestions anyway`;
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+module.exports = async function handler(req, res) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  if (req.method === "OPTIONS") return res.status(200).end();
+  if (req.method !== "POST") return res.status(405).json({ error: "Method not allowed" });
+
+  if (!process.env.GEMINI_API_KEY) {
+    console.error("GEMINI_API_KEY not set");
+    return res.status(500).json({ error: "API key not configured" });
   }
 
   const { messages } = req.body;
-
-  if (!messages || !Array.isArray(messages)) {
-    return res.status(400).json({ error: "Invalid messages format" });
+  if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({ error: "Invalid messages" });
   }
 
   try {
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({
       model: "gemini-2.0-flash",
       systemInstruction: SYSTEM_PROMPT,
@@ -60,30 +62,16 @@ export default async function handler(req, res) {
     }));
 
     const lastMessage = messages[messages.length - 1].content;
-
     const chat = model.startChat({ history });
     const result = await chat.sendMessage(lastMessage);
+    const reply = result.response.text();
 
-    let reply = result.response.text();
-
-    // 🚫 Catch bad / looping responses
-    const badPatterns = [
-      "tell me more",
-      "can you tell me more",
-      "your daily operations",
-      "please provide more details",
-    ];
-
-    if (badPatterns.some((p) => reply.toLowerCase().includes(p))) {
-      reply = `In most businesses, a lot of time goes into managing orders and customers. If everything is handled in one place, you save time daily and avoid costly mistakes. Even small improvements like this can increase your income and bring repeat customers. If you want, we can set this up for your business and keep it very simple.`;
-    }
-
-    res.status(200).json({
+    return res.status(200).json({
       content: [{ type: "text", text: reply }],
     });
 
   } catch (err) {
-    console.error("Gemini API error:", err.message);
-    res.status(500).json({ error: "AI request failed" });
+    console.error("Gemini error:", err.message);
+    return res.status(500).json({ error: "AI request failed", detail: err.message });
   }
-}
+};
