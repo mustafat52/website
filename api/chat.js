@@ -56,12 +56,15 @@ module.exports = async function handler(req, res) {
       systemInstruction: SYSTEM_PROMPT,
     });
 
-    const history = messages.slice(0, -1).map((m) => ({
+    // Skip the seeded opening bot message — Gemini requires history to start with 'user'
+    const allMessages = messages.filter((m, i) => !(i === 0 && m.role === 'assistant'));
+
+    const history = allMessages.slice(0, -1).map((m) => ({
       role: m.role === "assistant" ? "model" : "user",
       parts: [{ text: m.content }],
     }));
 
-    const lastMessage = messages[messages.length - 1].content;
+    const lastMessage = allMessages[allMessages.length - 1].content;
     const chat = model.startChat({ history });
     const result = await chat.sendMessage(lastMessage);
     const reply = result.response.text();
