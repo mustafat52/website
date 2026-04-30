@@ -1292,7 +1292,7 @@ async function sc(){
     remT();
     if(!r.ok){
       console.error('API error:', data);
-      am('bot', 'Error ' + r.status + ': ' + (data.error || data.detail || 'Unknown error'));
+      am('bot', 'Error ' + r.status + ': ' + (data.error || 'Unknown'));
       busy=false; sbEl.disabled=false; return;
     }
     const reply=data.content?.[0]?.text||"We had a small hiccup — email us at hussainiautomations72@gmail.com and we'll personally walk you through it.";

@@ -72,6 +72,6 @@ module.exports = async function handler(req, res) {
 
   } catch (err) {
     console.error("Gemini error:", err.message);
-    return res.status(500).json({ error: "AI request failed", detail: err.message });
+    return res.status(500).json({ error: err.message });
   }
 };
