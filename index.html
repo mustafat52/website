@@ -1287,12 +1287,20 @@ async function sc(){
       body:JSON.stringify({messages:hist})
     });
     const data=await r.json();
+    console.log('API response status:', r.status);
+    console.log('API response data:', JSON.stringify(data));
     remT();
+    if(!r.ok){
+      console.error('API error:', data);
+      am('bot', 'Error ' + r.status + ': ' + (data.error || data.detail || 'Unknown error'));
+      busy=false; sbEl.disabled=false; return;
+    }
     const reply=data.content?.[0]?.text||"We had a small hiccup — email us at hussainiautomations72@gmail.com and we'll personally walk you through it.";
     am('bot',reply); hist.push({role:'assistant',content:reply});
   } catch(e){
     remT();
-    am('bot',"Small hiccup! Email us at hussainiautomations72@gmail.com and we'll personally walk you through it.");
+    console.error('Fetch error:', e);
+    am('bot',"Fetch error: " + e.message);
   }
   busy=false; sbEl.disabled=false;
 }
